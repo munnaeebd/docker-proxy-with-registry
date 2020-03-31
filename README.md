@@ -16,12 +16,12 @@ Client:
      mkdir -p /etc/systemd/system/docker.service.d
       cat << EOD > /etc/systemd/system/docker.service.d/http-proxy.conf
     [Service]
-    Environment="HTTP_PROXY=http://103.9.138.166:3128/"
-    Environment="HTTPS_PROXY=http://103.9.138.166:3128/"
+    Environment="HTTP_PROXY=http://Proxy-server-IP:3128/"
+    Environment="HTTPS_PROXY=http://Proxy-server-IP:3128/"
     EOD
 
 
-curl http://103.9.138.166:3128/ca.crt > /usr/share/ca-certificates/docker_registry_proxy.crt
+curl http://Proxy-server-IP:3128/ca.crt > /usr/share/ca-certificates/docker_registry_proxy.crt
 
 echo "docker_registry_proxy.crt" >> /etc/ca-certificates.conf
 
