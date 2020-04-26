@@ -10,7 +10,7 @@ docker-proxy-with-registry
 
  
  
-Client:
+# Client(Ubuntu):
 
 
      mkdir -p /etc/systemd/system/docker.service.d
@@ -32,3 +32,30 @@ echo "docker_registry_proxy.crt" >> /etc/ca-certificates.conf
 
 
 docker pull gcr.io/google_containers/etcd-amd64:3.2.24 
+
+
+////////////////////////////////////////////////////////////////////
+
+# Client (Centos):
+
+
+mkdir -p /etc/systemd/system/docker.service.d
+
+cat << EOD > /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment="HTTP_PROXY=http://103.9.138.166:3128/"
+Environment="HTTPS_PROXY=http://103.9.138.166:3128/"
+EOD
+
+
+curl http://103.9.138.166:3128/ca.crt > /etc/pki/ca-trust/source/anchors/docker_registry_proxy.crt
+
+
+update-ca-trust extract
+
+systemctl daemon-reload
+systemctl restart docker.service
+
+
+
+docker pull gcr.io/google_containers/etcd-amd64:3.2.24
